@@ -13,8 +13,36 @@ aiofiles = "^0.7.0"
 websockets = "^9.1"
 
 [tool.poetry.dev-dependencies]
-black = {version = "^21.6b0", allow-prereleases = true}
+black = { version = "^21.6b0", allow-prereleases = true }
+isort = "^5.9.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.isort]
+force_single_line = true
+import_heading_stdlib = "Builtins"
+import_heading_firstparty = "Local"
+import_heading_thirdparty = "3rd party"
+
+
+[tool.black]
+line-length = 95
+exclude = '''
+(
+  /(
+      \.eggs        
+    | \.git          
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
