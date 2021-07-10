@@ -1,1 +1,1 @@
-# fastapi-wake-on-lan
+# Fastapi-based Wake on lan website
