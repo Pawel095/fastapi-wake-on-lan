@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Fastapi WOL</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/static/main.css" />
+        <script defer src="/static/jquery-3.6.0.min.js"></script>
+        <script src="/static/main.js" defer></script>
+    </head>
+    <body>
+        <div class="vertical">
+            <div class="h-column">
+                <table id="targets">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Komentarz</th>
+                            <th>Adres IP</th>
+                            <th>Adres MAC</th>
+                            <th>Adres Broadcast</th>
+                            <th>Uruchom</th>
+                            <th>Usuń</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="h-column">
+                <form id="addNew" class="vertical">
+                    <label for="name">Nazwa</label>
+                    <input class="borderable" type="text" name="name" id="name" data-dbname="name" required />
+
+                    <label for="desc">Komentarz (opcjonalne)</label>
+                    <input class="borderable" type="text" name="desc" id="desc" data-dbname="description" />
+
+                    <label for="ip">Adres IP (0.0.0.0)</label>
+                    <input
+                        class="borderable"
+                        type="text"
+                        name="ip"
+                        id="ip"
+                        pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+                        data-dbname="ip"
+                        required
+                    />
+
+                    <label for="mac">Adres MAC (FF:FF:FF:FF:FF:FF)</label>
+                    <input
+                        class="borderable"
+                        type="text"
+                        name="mac"
+                        id="mac"
+                        pattern="[a-fA-F\d]{2}:[a-fA-F\d]{2}:[a-fA-F\d]{2}:[a-fA-F\d]{2}:[a-fA-F\d]{2}:[a-fA-F\d]{2}"
+                        data-dbname="mac"
+                        required
+                    />
+
+                    <label for="broadcast">Adres Broadcast (0.0.0.0)</label>
+                    <input
+                        class="borderable"
+                        type="text"
+                        name="broadcast"
+                        id="broadcast"
+                        pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
+                        data-dbname="broadcast"
+                        required
+                    />
+
+                    <input type="submit" value="Dodaj" />
+                </form>
+            </div>
+            <div class="h-column">
+                <table id="status">
+                    <thead>
+                        <tr>
+                            <th>Komputer</th>
+                            <th>Status</th>
+                            <th>Sprawdzanie</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
