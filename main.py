@@ -1,9 +1,15 @@
+# Builtins
+import asyncio
+import sqlite3
+
 # 3rd party
+from awake.wol import send_magic_packet
 from fastapi import FastAPI
 from fastapi import WebSocket
-from fastapi.templating import Jinja2Templates
-from fastapi.websockets import WebSocketDisconnect
+from fastapi.responses import RedirectResponse
 from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
+from fastapi.websockets import WebSocketDisconnect
 
 # Local
 from database.ctl import database
@@ -12,10 +18,9 @@ from database.models import Target
 from language import PING_NOT_REACHABLE
 from language import PING_REACHABLE
 from utils import ping
-import sqlite3
-from awake.wol import send_magic_packet
 
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.on_event("startup")
@@ -40,10 +45,17 @@ async def websocket_endpoint(websocket: WebSocket):
         pass
 
 
+@app.get("/", response_class=RedirectResponse)
+async def redrect_to_index():
+    return "/static/index.html"
+
+
 @app.post("/send-wol")
 async def send_wol(target: Target):
-    send_magic_packet(mac=target.mac, broadcast=target.broadcast, dest=target.ip, port=9)
-    send_magic_packet(mac=target.mac, broadcast=target.broadcast, dest=target.ip, port=7)
+    for _ in range(3):
+        send_magic_packet(mac=target.mac, broadcast=target.broadcast, dest=target.ip, port=9)
+        send_magic_packet(mac=target.mac, broadcast=target.broadcast, dest=target.ip, port=7)
+        await asyncio.sleep(0.2)
     return ""
 
 

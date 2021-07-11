@@ -7,7 +7,6 @@ authors = ["Paweł Pankiewicz <pawelp6020@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 fastapi = "^0.66.0"
-Jinja2 = "^3.0.1"
 uvicorn = "^0.14.0"
 aiofiles = "^0.7.0"
 websockets = "^9.1"
