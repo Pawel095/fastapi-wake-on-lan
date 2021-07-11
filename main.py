@@ -40,9 +40,13 @@ async def websocket_endpoint(websocket: WebSocket):
         ip = await websocket.receive_text()
         while True:
             await websocket.receive_text()
-            await websocket.send_text(PING_REACHABLE if ping(ip) else PING_NOT_REACHABLE)
+            await websocket.send_json(
+                {"text": PING_REACHABLE, "code": 1}
+                if ping(ip)
+                else {"text": PING_NOT_REACHABLE, "code": 0}
+            )
     except WebSocketDisconnect:
-        pass
+        await websocket.close()
 
 
 @app.get("/", response_class=RedirectResponse)
@@ -53,8 +57,9 @@ async def redrect_to_index():
 @app.post("/send-wol")
 async def send_wol(target: Target):
     for _ in range(3):
-        send_magic_packet(mac=target.mac, broadcast=target.broadcast, dest=target.ip, port=9)
-        send_magic_packet(mac=target.mac, broadcast=target.broadcast, dest=target.ip, port=7)
+        send_magic_packet(mac=target.mac, broadcast=target.broadcast, port=9)
+        await asyncio.sleep(0.1)
+        send_magic_packet(mac=target.mac, broadcast=target.broadcast, port=7)
         await asyncio.sleep(0.2)
     return ""
 

@@ -39,3 +39,6 @@ td {
 table {
     border-collapse: collapse;
 }
+.Transition-1s {
+    transition: 1.5s;
+}
